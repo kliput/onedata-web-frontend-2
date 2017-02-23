@@ -1,0 +1,51 @@
+// needs: $materialize-sidenav-width
+
+// 1. Colors
+
+$primary-color: $color-one-sky-dark;
+$secondary-color: $color-one-red;
+
+// 11. Global
+
+// Media Query Ranges
+$small-screen-up: 768px !default;
+$medium-screen-up: 1200px !default;
+$large-screen-up: 1680px !default;
+$small-screen: $small-screen-up - 1;
+$medium-screen: $medium-screen-up - 1;
+$large-screen: $large-screen-up - 1;
+
+// 12. Grid
+
+$gutter-width: 0;
+
+// 13. Navigation bar
+
+$navbar-height: 70px !default;
+// TODO: larger font
+
+@import 'materialize';
+
+/// overrides for styles that cannot be configured via variables
+.side-nav {
+  width: $materialize-sidenav-width;
+}
+
+.row {
+  margin-bottom: 0;
+}
+
+html {
+  font-family: 'Open Sans', sans-serif;
+}
+
+@media #{$medium-and-down} {
+  .side-nav.fixed {
+    -webkit-transform:translateX(-105%);
+    transform:translateX(-105%);
+  }
+  .side-nav.fixed.right-aligned {
+    -webkit-transform:translateX(105%);
+    transform:translateX(105%)
+  }
+}

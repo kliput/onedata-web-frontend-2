@@ -57,15 +57,15 @@ export default Ember.Component.extend({
 
   colSidebarClass: computed('showMobileSidebar', function() {
     let showMobileSidebar = this.get('showMobileSidebar');
-    let base = 'col-in-app-layout col-sidebar col-sm-4 col-md-3 col-lg-2 full-height disable-user-select';
-    let xsClass = (showMobileSidebar ? 'col-xs-12' : 'hidden-xs');
+    let base = 'col-in-app-layout col-sidebar col m4 l3 full-height disable-user-select';
+    let xsClass = (showMobileSidebar ? 's12' : 'hide-on-small-only');
     return htmlSafe(`${base} ${xsClass}`);
   }),
 
   colContentClass: computed('showMobileSidebar', function() {
     let showMobileSidebar = this.get('showMobileSidebar');
-    let base = 'col-in-app-layout col-content col-sm-8 col-md-7 col-lg-9 full-height';
-    let xsClass = (showMobileSidebar ? 'hidden-xs' : 'col-xs-12');
+    let base = 'col-in-app-layout col-content col m8 l7 full-height';
+    let xsClass = (showMobileSidebar ? 'hide-on-small-only' : 's12');
     return htmlSafe(`${base} ${xsClass}`);
   }),
 
@@ -82,6 +82,11 @@ export default Ember.Component.extend({
         this.set('sidenavTabId', null);
       }
     });
+  },
+  
+  didInsertElement() {
+    this._super(...arguments);
+    this.$(".button-collapse").sideNav();
   },
 
   actions: {

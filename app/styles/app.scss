@@ -1,13 +1,17 @@
-@import 'bootstrap-config';
+$materialize-sidenav-width: 212px;
+
+@import 'fonts';
+@import 'colors';
+
 @import 'ember-side-menu';
+@import 'materialize-config';
 
 @import 'utils';
-@import 'colors';
-@import 'fonts';
+
 
 $color-overlay: $content-backdrop-bg;
 
-$zindex-layer-1-2-overlay: $zindex-modal-background;
+$zindex-layer-1-2-overlay: 1000;
 $zindex-layer-1-max: $zindex-layer-1-2-overlay - 1;
 $zindex-layer-2-min: $zindex-layer-1-2-overlay + 1;
 
@@ -20,10 +24,9 @@ $color-main-menu-separator: rgba($color-one-list-item-separator, 0.05);
 
 $one-list-item-separator: 1px solid;
 
-$color-main-menu-bg-top: #06235C;
-$color-main-menu-bg-bottom: #4686CF;
-
-$color-main-menu-fg: #FFF;
+$color-main-menu-bg-top: $color-one-sky-dark;
+$color-main-menu-bg-bottom: $color-one-sky-light;
+$color-main-menu-fg: $color-one-white;
 
 $one-list-item-active-left-border-width: 8px;
 
