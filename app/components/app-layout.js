@@ -24,7 +24,7 @@ export default Ember.Component.extend({
   sideMenu: service(),
 
   // TODO: too much relations: we got mainMenuItemChanged event
-  currentTabId: computed.readOnly('mainMenu.currentItemId'),
+  currentTabId: computed.oneWay('mainMenu.currentItemId'),
   sidenavTabId: null,
   showMobileSidebar: false,
 
@@ -64,7 +64,7 @@ export default Ember.Component.extend({
 
   colContentClass: computed('showMobileSidebar', function() {
     let showMobileSidebar = this.get('showMobileSidebar');
-    let base = 'col-in-app-layout col-content col-sm-8 col-md-7 col-lg-9 full-height';
+    let base = 'col-in-app-layout col-content col-sm-8 col-md-9 col-lg-10 full-height';
     let xsClass = (showMobileSidebar ? 'hidden-xs' : 'col-xs-12');
     return htmlSafe(`${base} ${xsClass}`);
   }),
@@ -89,19 +89,30 @@ export default Ember.Component.extend({
     closeSidenav() {
       this.get('eventsBus').trigger('one-sidenav:close', '#sidenav-sidebar');
     },
+    sidenavClosed() {
+      this.set('sidenavItemId', null);
+    },
     // TODO IMPORTANT: inconsistent depedencies between component:main-menu, service:main-menu and component:app-layout
     mainMenuItemClicked(itemId) {
-      let shouldOpen = (this.get('sidenavTabId') !== itemId);
+      let {
+        sidenavTabId,
+        currentTabId
+      } = this.getProperties('sidenavTabId', 'currentTabId');
+      let shouldOpen = (
+        (!sidenavTabId && currentTabId !== itemId) ||
+        (!!sidenavTabId && sidenavTabId !== itemId)        
+      );
       let action = (shouldOpen ? 'open' : 'close');
       this.get('eventsBus').trigger('one-sidenav:' + action, '#sidenav-sidebar');
       if (shouldOpen) {
         this.set('sidenavTabId', itemId);
       }
     },
-    mobileMenuItemChanged() {
+    mobileMenuItemChanged(itemId) {
       let sideMenu = this.get('sideMenu');
       sideMenu.close();
       this.set('sidenavTabId', null);
+      this.sendAction('changeTab', itemId);
     },
     showMobileSidebar() {
       this.set('showMobileSidebar', true);

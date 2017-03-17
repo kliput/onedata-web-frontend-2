@@ -1,5 +1,3 @@
-@import 'ember-side-menu';
-
 .app-layout .side-menu {
   background-color: $color-sidebar-background;
 
@@ -14,6 +12,10 @@
 
   &.active {
     background-color: $color-one-white-blue;
+  }
+
+  &.disabled {
+    color: rgba($color-one-graphite, 0.5);
   }
 
   &::after {

@@ -1,3 +1,22 @@
+.onedata-logo {
+  width: 120px;
+  height: 25px;
+  background-image: url($root-url + '/assets/images/logo.svg');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vertical-align-middle {
+  @include vertical-align-middle();
+}
+
+.absolute-align-middle-center {
+  @include absolute-align-middle-center();
+}
+
 .full-height {
   height: 100%;
   overflow-y: auto;
@@ -12,13 +31,13 @@
   cursor: pointer;
 }
 
-.overlay {
+.content-backdrop.sidenav-backdrop {
   // TODO: animation
   position: absolute;
   @include fill-container();
+  margin-left: $main-menu-width;
 
   z-index: $zindex-layer-1-2-overlay;
-  background-color: $color-overlay;
 }
 
 .disable-user-select {
@@ -28,12 +47,38 @@
   }
 }
 
-input.search-bar {
-  line-height: 17px;
-  @include vendor-prefix(border-radius, 16px);
-  @include vendor-prefix(box-shadow, none);
-  outline: 0;
-  -webkit-appearance: none;
-  border: 1px solid $color-one-list-item-separator;
-  padding: 8px 16px;
+$btn-bg-color: $color-one-white;
+
+// TODO color not defined
+$input-bg-color: #F9F9F9;
+// TODO color not defined
+$input-border-color: #CDCDCD;
+
+.btn {
+  outline: none !important;
+}
+
+input.light {
+  height: 38px;
+  background-color: $color-one-white !important;
+}
+
+// TODO use for generation fb and bg
+@mixin one-fg-styles($attributes, $color) {
+  @each $attr in $attributes {
+    #{$attr}: $color;
+  }
+}
+
+input {
+  border-color: $color-one-list-item-separator;
+}
+
+.world-map {
+  &.light {
+    background-image: url($root-url + '/assets/images/world-map-light.svg');
+  }
+  &.dark {
+    background-image: url($root-url + '/assets/images/world-map-dark.svg');
+  }
 }

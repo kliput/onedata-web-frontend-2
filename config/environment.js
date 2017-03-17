@@ -1,11 +1,11 @@
 /* jshint node: true */
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   var ENV = {
-    modulePrefix: 'onedata-web-frontend-2',
+    modulePrefix: 'onepanel-web-frontend',
     environment: environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'hash',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -16,6 +16,12 @@ module.exports = function(environment) {
         Date: false
       }
     },
+    'ember-cli-toggle': {
+      includedThemes: ['light'],
+      defaultTheme: 'light',
+      defaultOffLabel: '::false',
+      defaultOnLabel: '::true'
+    },
 
     APP: {
       // Here you can pass flags/options to your application instance
@@ -23,12 +29,19 @@ module.exports = function(environment) {
     }
   };
 
-  if (environment === 'development') {
+  if (environment && environment.startsWith('development')) {
     // ENV.APP.LOG_RESOLVER = true;
     ENV.APP.LOG_ACTIVE_GENERATION = true;
     ENV.APP.LOG_TRANSITIONS = true;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
+
+    // to launch inside original onepanel app
+    if (environment === 'development-backend') {
+      ENV.rootURL = '/js/panel-gui/';
+    } else {
+      ENV.APP.MOCK_BACKEND = true;
+    }
   }
 
   if (environment === 'test') {
@@ -40,6 +53,8 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+
+    ENV.APP.MOCK_BACKEND = true;
   }
 
   if (environment === 'production') {

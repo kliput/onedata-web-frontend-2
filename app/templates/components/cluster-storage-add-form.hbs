@@ -1,0 +1,42 @@
+{{!-- TODO: i18n --}}
+
+{{!-- TODO make other component for creating forms from spec --}}
+
+{{#bs-form submitOnEnter=false as |form|}}
+  {{#form.group}}
+    {{#power-select
+      options=storageTypes
+      selected=selectedStorageType
+      onchange=(action "storageTypeChanged")
+      searchEnabled=false
+      as |storageType|
+    }}
+      {{storageType.name}}
+    {{/power-select}}
+  {{/form.group}}
+
+  {{#each currentFields as |field|}}
+    {{#form.group}}
+      {{#if (eq field.type "checkbox")}}
+        <label for={{field.name}}>{{field.placeholder}}</label>
+        {{x-toggle
+          fieldName=field.name
+          value=(get formValues field.name)
+          showLabels=false
+          onToggle=(action "toggleChanged")
+        }}
+      {{else}}
+        {{component (input-component-name field.type)
+          value=(get formValues field.name)
+          class="form-control"
+          update=(action "inputChanged" field.name)
+          placeholder=field.placeholder
+        }}
+      {{/if}}
+    {{/form.group}}
+  {{/each}}
+  
+  {{#spin-button type="submit" class="btn btn-primary" action=(action "submit")}}
+    Add
+  {{/spin-button}}
+{{/bs-form}}

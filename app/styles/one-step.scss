@@ -1,0 +1,57 @@
+// requires Bootstrap 3 scaffolding, grid
+// requires onedata colors
+
+$step-circle-border-width: 4px;
+$step-circle-size: 32px;
+$color-one-step-inactive: $color-one-light-gray;
+$color-one-step-active: $color-one-default;
+
+.one-step {
+  position: relative;
+  float: left;
+  width: 200px;
+  list-style: none;
+  
+  &:not(.active) {
+    // TODO maybe move this to dynamic class
+    @extend .hidden-xs
+  }
+
+  .step-circle {
+    margin-left: auto;
+    margin-right: auto;
+    width: $step-circle-size;
+    height: $step-circle-size;
+    border-style: solid;
+    border-width: $step-circle-border-width;
+    border-color: $color-one-step-inactive;
+    color: $color-one-step-inactive;
+  }
+
+  .step-number {
+    line-height: $step-circle-size - 2*$step-circle-border-width;
+    // TODO consider making variable for one-component borders
+    // TODO inactive color
+    text-align: center;
+    font-size: $step-circle-size * 0.5;
+  }
+
+  .step-title {
+    text-transform: capitalize;
+    margin-top: $step-circle-size * 0.3;
+    color: $color-one-step-inactive;
+  }
+
+  &.active {
+    .step-circle {
+      border-color: $color-one-step-active;
+      background-color: $color-one-step-active;
+    }
+    .step-number {
+      color: $color-one-white;
+    }
+    .step-title {
+      color: $color-one-step-active;
+    }
+  }
+}

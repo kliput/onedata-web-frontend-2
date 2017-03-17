@@ -8,11 +8,11 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('onedata', function() {
-    this.route('resources', { path: ':resources' }, function() {
+    this.route('sidebar', { path: ':type' }, function() {
       this.route('content', { path: ':resourceId' });
     });
-    this.route('providers');
   });
+  this.route('login');
 });
 
 export default Router;

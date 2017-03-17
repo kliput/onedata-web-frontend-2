@@ -1,32 +1,32 @@
-$mobile-top-height: 70px;
-
+// needs: $mobile-top-height
+// needs: $main-menu-width
 .app-layout {
   position: absolute;
   @include fill-container();
-
+  .app-grid {
+    padding-left: 0;
+  }
+  @media (min-width: $screen-md-min) {
+    .app-grid {
+      padding-left: $main-menu-width;
+    }
+  }
   .row-mobile-menu {
     height: $mobile-top-height;
     // TODO: the same as col-main-menu?
-    background: linear-gradient(
-      $color-main-menu-bg-top,
-      $color-main-menu-bg-bottom
-    );
+    background: linear-gradient( $color-main-menu-bg-top, $color-main-menu-bg-bottom);
     color: $color-one-white;
-
     .side-menu-toggle {
       height: 100%;
       width: auto;
     }
-
     .navbar-toggle {
       margin: 16px;
-
       .icon-bar {
         background-color: $color-one-white;
         border-radius: 0;
       }
     }
-
     .tab-name {
       text-transform: capitalize;
       line-height: $mobile-top-height;
@@ -35,40 +35,23 @@ $mobile-top-height: 70px;
       margin-right: 10px;
     }
   }
-
   .col-in-app-layout {
     position: relative;
   }
-
   .col-main-menu {
-    background: linear-gradient(
-      $color-main-menu-bg-top,
-      $color-main-menu-bg-bottom
-    );
-
+    position: absolute;
+    background: linear-gradient( $color-main-menu-bg-top, $color-main-menu-bg-bottom);
+    width: $main-menu-width;
     .row-onedata-logo {
       margin-top: 40px;
       margin-bottom: 40px;
     }
-
-    .onedata-logo {
-      width: 120px;
-      height: 25px;
-      background-image: url('/assets/images/logo.svg');
-      background-position: center center;
-      background-repeat: no-repeat;
-      background-size: contain;
-      margin-left: auto;
-      margin-right: auto;
-    }
   }
-
   .col-sidebar {
     background: $color-sidebar-background;
     // TODO same as sidenav
     border-right: 1px solid $color-one-list-item-separator;
   }
-
   .row-heading .col-title {
     // TODO: similar to one-list-item
     line-height: 64px;
@@ -77,45 +60,78 @@ $mobile-top-height: 70px;
     padding-right: 30px;
     font-size: 1.25em;
   }
-
   .col-content {
     // TODO similar 30px
     padding: 30px;
   }
 }
 
+// TODO gradient as on design - needs additional covering element
+// @mixin main-menu-item-gradient($opacity) {
+//   &::before {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     bottom: 0;
+//     right: 0;
+//     opacity: $opacity;
+//     // NOTICE changing menu background will mess up this color
+//     background: linear-gradient(90deg, #7E8EDA 0%, rgba(255,255,255,0) 100%); 
+//   }
+// }
+$color-main-menu-fg-base: $color-one-white;
+$color-main-menu-fg-active: $color-main-menu-fg-base;
+$color-main-menu-fg-default: rgba($color-main-menu-fg-base, 0.9);
+$color-main-menu-fg-disabled: rgba($color-main-menu-fg-base, 0.5);
+
+$color-main-menu-item-gradient-base: $color-main-menu-fg-base;
+@mixin main-menu-item-gradient($opacity-left, $opacity-right) {
+  background: linear-gradient(90deg, rgba($color-main-menu-item-gradient-base, $opacity-left), rgba($color-main-menu-item-gradient-base, $opacity-right));
+}
+
 /// Desktop main menu styles
 .col-main-menu .one-list-item.main-menu-item {
-  color: $color-main-menu-fg;
-  
-  // TODO a style when a route is not opened but we have sidebar opened
-  &.opened { 
-
+  >.item-header {
+    color: $color-main-menu-fg-default;
   }
-
-  &.active,
-  &:hover {
-    > .item-header {
-      color: $color-main-menu-fg;
-      background: linear-gradient(
-        90deg,
-        rgba(255,255,255,0.15),
-        rgba(255,255,255,0)
-      )
+  &.enabled {
+    &.active,
+    &.selected {
+      >.item-header {
+        color: $color-main-menu-fg-active;
+        @include main-menu-item-gradient(0.2, 0);
+      }
+    }
+    &:hover {
+      >.item-header {
+        @include main-menu-item-gradient(0.15, 0);
+      }
     }
   }
-
+  &.disabled {
+    >.item-header {
+      color: $color-main-menu-fg-disabled;
+    }
+  }
   // style overrides for list item
   &.one-list-item {
     &::after {
       @include top-line(1px solid $color-main-menu-separator)
     }
-
     &:last-of-type {
       &::after {
         @include bottom-line(1px solid $color-main-menu-separator)
       }
     }
+  }
+}
+.col-main-menu .main-menu.sidenav-opened .one-list-item.main-menu-item.active {
+  // color: $color-main-menu-fg-default;
+  >.item-header {
+    color: $color-main-menu-fg-default;
+  }
+  &::before {
+    @include left-line($one-list-item-active-left-border-width solid $color-main-menu-fg-disabled);
   }
 }
 

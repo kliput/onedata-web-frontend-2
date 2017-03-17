@@ -9,10 +9,17 @@ const {
 
 export default Ember.Component.extend({
   tagName: 'li',
-  classNames: ['main-menu-item', 'one-list-item', 'clickable'],
-  classNameBindings: ['isActive:active'],
+  classNames: ['main-menu-item', 'one-list-item'],
+  classNameBindings: [
+    'isActive:active',
+    'isSelected:selected',
+    'isDisabled:disabled:enabled',
+    'isDisabled::clickable'
+  ],
 
   item: null,
+  isActive: false,
+  isSelected: false,
 
   name: computed('item.id', function() {
     let item = this.get('item');
@@ -20,8 +27,10 @@ export default Ember.Component.extend({
   }),
 
   click() {
-    let item = this.get('item');
-    this.sendAction('itemClicked', item);
-    return false;
+    if (!this.get('isDisabled')) {
+      let item = this.get('item');
+      this.sendAction('itemClicked', item);
+      return false;
+    }
   }
 });

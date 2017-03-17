@@ -1,0 +1,35 @@
+{{!-- TODO i18n --}}
+
+{{#if isCollectionEmpty}}
+
+  {{empty-collection-sidebar resourceType=resourceType}}
+
+{{else}}
+
+  {{#one-list-wrapper items=model.collection as |item|}}
+    {{#one-list-primary-item item=item
+      changePrimaryItemId="changePrimaryItemId"
+      isActive=(eq primaryItemId item.id)
+      as |primarySection|}}
+      {{#if (eq primarySection 'header')}}
+        {{item.label}}
+      {{else if (eq primarySection 'secondary')}}
+        {{!-- TODO resource type specific --}}
+        <ul class="one-list one-list-level-2">
+          <li class="one-list-item clickable">
+            <div class="item-header">Members</div>
+          </li>
+          <li class="one-list-item clickable">
+            <div class="item-header">Statistics</div>
+          </li>
+          <li class="one-list-item clickable">
+            <div class="item-header">Something</div>
+          </li>
+        </ul>
+      {{/if}}
+    {{/one-list-primary-item}}
+  {{/one-list-wrapper}}
+
+{{/if}}
+
+

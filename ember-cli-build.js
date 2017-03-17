@@ -1,14 +1,25 @@
 /*jshint node:true*/
 /* global require, module */
+
+var sass = require('node-sass');
+
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   var app = new EmberApp(defaults, {
     sassOptions: {
       includePaths: [
         'app/styles',
         'app/styles/oneicons'
-      ]
+      ],
+      functions: {
+        rootUrl: function () {
+          // temporary for testing app with old onepanel
+          var rootUrl = (app.env === 'development-backend' ?
+            '/js/panel-gui' : '');
+          return new sass.types.String(rootUrl);
+        }
+      }
     },
     // a "bootstrap" should be imported into app.scss
     'ember-cli-bootstrap-sassy': {
@@ -48,6 +59,8 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   const BOWER_ASSETS = [
+    'basictable/jquery.basictable.min.js',
+    'basictable/basictable.css'
   ];
 
   BOWER_ASSETS.forEach(path => app.import(app.bowerDirectory + '/' + path));

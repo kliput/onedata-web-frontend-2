@@ -1,0 +1,48 @@
+{{!-- TODO i18n --}}
+
+{{!-- TODO validation - if not ready to deploy, disable button --}}
+
+<div class="row">
+  <div class="btn-toolbar">
+    {{#spin-button class="btn btn-primary pull-right" action=(action "startDeploy")}}
+      Deploy
+    {{/spin-button}}
+    {{!-- TODO: config icon --}}
+    {{#bs-button type="default" class="pull-right"}}
+      Global settings
+    {{/bs-button}}
+  </div>
+</div>
+<div class="row">
+  {{#if hostsProxy.isFulfilled}}
+    {{cluster-host-table
+      hosts=hosts
+      primaryClusterManager=primaryClusterManager
+      hostOptionChanged=(action "hostOptionChanged")
+      primaryClusterManagerChanged=(action "primaryClusterManagerChanged")
+    }}
+  {{else}}
+    {{!-- TODO make a component that got a object promise proxy and watches
+    completion --}}
+    {{#if hosts.isPending}}
+      Loading...
+    {{else if hosts.isRejected}}
+      Rejected!
+    {{/if}}
+  {{/if}}
+</div>
+
+{{!-- TODO maybe keep the modal opened short after promise resolve --}}
+{{#if deploymentPromise}}
+  {{#bs-modal
+    id="cluster-deploy-progress"
+    open=deploymentPromise
+    body=false
+    footer=true
+    as |modal|
+  }}
+    {{#modal.body}}
+      {{new-cluster-deploy-progress deploymentPromise=deploymentPromise}}
+    {{/modal.body}}
+  {{/bs-modal}}
+{{/if}}
